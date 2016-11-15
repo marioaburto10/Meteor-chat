@@ -1,0 +1,81 @@
+<h1>Burgers!</h1>
+
+<h2>Burgers that have not been eaten!</h2>
+
+<ul>
+  {{#each burgers}}
+    {{#unless this.devoured}}
+      <li>
+        {{this.ID}}. {{this.burger_name}}
+
+        <form action="burgers/update/{{this.ID}}?_method=PUT" method="POST">
+            <input type="hidden" name="devoured" value="1">
+            <button type="submit">DEVOURING TIME!</button>
+        </form>
+
+      </li>
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<h2>Burgers that have been eaten!</h2>
+
+<ul>
+  {{#each burgers}}
+    {{#if this.devoured}}
+      <li>
+        {{this.ID}}. {{this.burger_name}}
+
+        <form action="burgers/update/{{this.ID}}?_method=PUT" method="POST">
+          <input type="hidden" name="devoured" value="0">
+          <button type="submit">I'M FULL, REMOVE FROM STOMACH!</button>
+        </form>
+      </li>
+    {{/if}}
+  {{/each}}
+</ul>
+
+<h2>Add a burger</h2>
+<form class="create-update-form" action="burgers/create" method="POST">
+
+  <div class="form-group">
+    <label for="bg">Burger Name:</label>
+    <input type="text" id="bg" name="burgerInput">
+  </div>
+
+  <button type="submit">Add Burger</button>
+</form>
+
+<h2>Delete a burger</h2>
+
+<ul>
+  {{#each burgers}}
+      <li>
+        {{this.ID}}. {{this.burger_name}}
+
+        <form class="delete-form" action="burgers/delete/{{this.ID}}?_method=DELETE" method="POST">
+
+          <div class="form-group">
+            <label for="brg">ID of the burger you want to delete:</label>
+            <input type="text" id="brg" name="delete">
+          </div>
+
+          <button type="submit">DELETE Burger</button>
+        </form>
+
+      </li>
+  {{/each}}
+</ul>
+
+
+
+
+{{!-- <form class="delete-form" action="burgers/delete/{{this.ID}}?_method=DELETE" method="POST">
+
+  <div class="form-group">
+    <label for="brg">ID of the burger you want to delete:</label>
+    <input type="text" id="brg" name="delete">
+  </div>
+
+  <button type="submit">DELETE Burger</button>
+</form> --}}
