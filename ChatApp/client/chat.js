@@ -1,15 +1,15 @@
-
-
 Messages = new Mongo.Collection("msgs");
 
 Meteor.methods({
-  sendMessage: function (messageText) {
-    /* add authentication here */
+  sendMessage: function (message) {
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-authorized");
+    }
 
     Messages.insert({
-      messageText: messageText,
+      messageText: message,
       createdAt: new Date(),
-      username: "anonymous"
+      username: Meteor.user().username  // <-add real username
     });
   }
 });
@@ -17,7 +17,7 @@ Meteor.methods({
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish("messages", function () {
-    return Messages.find({}, {sort: {createdAt: -1}, limit: 5});
+    return Messages.find();
   });
 }
 
@@ -38,6 +38,24 @@ if (Meteor.isClient) {
   /*chat window scrolling*/
 
   /*events*/
+  Template.body.events({
+    "submit .new-message": function (event) {
+      var text = event.target.text.value;
 
-  /*account config*/
+      Meteor.call("sendMessage", text);
+
+      event.target.text.value = "";
+      event.preventDefault();
+    },
+
+    /* scroll event */
+
+  });
+
+   /*account config*/ 
+   // Keep this if you want it to ask for username instead of email
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
 }
