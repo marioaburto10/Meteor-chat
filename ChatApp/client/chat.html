@@ -8,6 +8,11 @@
       <h1>Meteor Chat</h1>
     </header>
     <!-- chat messages here -->
+    <ul class="message-window">
+      {{#each recentMessages}}
+        {{> message}}
+      {{/each}}
+    </ul>
     <!-- more-messages button -->
     <footer>
         <form class="new-message">
