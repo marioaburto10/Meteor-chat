@@ -15,10 +15,15 @@
       {{/each}}
     </ul>
     <!-- more-messages button -->
+    {{#momentum plugin="fade"}}
+      {{#if thereAreUnreadMessages}}
+        <button class="more-messages">New Messages &#x25BE;</button>
+      {{/if}}
+    {{/momentum}}
      <footer>
       {{#if currentUser}}
         <form class="new-message">
-          <input type="text" name="text" placeholder="Add a message" autocomplete="off" />
+          <input type="text" name="text" placeholder="Type a message" autocomplete="off" />
         </form>
       {{/if}}
     </footer>
